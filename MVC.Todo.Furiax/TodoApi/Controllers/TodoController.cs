@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TodoApi.DataAccess;
 using TodoApi.Models;
 
@@ -106,16 +107,20 @@ namespace TodoApi.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItemDTO>> PostTodoItem(TodoItemDTO todoDTO)
         {
-            var todoItem = new TodoItem
+            if (!string.IsNullOrEmpty(todoDTO.Name))
             {
-                Name = todoDTO.Name,
-                IsComplete = todoDTO.IsComplete
-            };
+                var todoItem = new TodoItem
+                {
+                    Name = todoDTO.Name,
+                    IsComplete = todoDTO.IsComplete
+                };
 
-            _context.TodoItems.Add(todoItem);
-            await _context.SaveChangesAsync();
+                _context.TodoItems.Add(todoItem);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, ItemToDTO(todoItem));
+                return CreatedAtAction(nameof(GetTodoItem), new { id = todoItem.Id }, ItemToDTO(todoItem));
+            }
+            return BadRequest("Todo can't be empty");
         }
 
         // DELETE: api/Todo/5

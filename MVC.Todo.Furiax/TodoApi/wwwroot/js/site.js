@@ -9,7 +9,9 @@ function getItems() {
 }
 
 function addItem() {
+    
     const addNameTextbox = document.getElementById('add-name');
+    const errorMessage = document.getElementById('error-message');
 
     const item = {
         isComplete: false,
@@ -29,7 +31,12 @@ function addItem() {
             getItems();
             addNameTextbox.value = '';
         })
-        .catch(error => console.error('Unable to add item.', error));
+        .catch(error => {
+            console.error('An error occurred:', error);
+            errorMessage.innerText = 'An error occurred. Please try again.';
+            errorMessage.style.display = 'block';
+        });
+;
 }
 
 function deleteItem(id) {

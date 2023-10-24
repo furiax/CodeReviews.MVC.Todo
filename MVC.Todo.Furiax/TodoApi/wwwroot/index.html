@@ -6,12 +6,14 @@
     <link rel="stylesheet" href="css/site.css" />
 </head>
 <body>
-    <h1 >To-do List</h1>
+    <h1>To-do List</h1>
     <h3>Add</h3>
     <form action="javascript:void(0);" method="POST" onsubmit="addItem()">
         <input type="text" id="add-name" placeholder="Insert new to-do">
         <input type="submit" value="Add">
+        <div id="error-message" style="color: red; display: none;"></div>
     </form>
+    <div id="error-message" style="color: red; display: none;"></div>
 
     <div id="editForm">
         <h3>Edit</h3>
